@@ -5,10 +5,10 @@ Trace Together algorithm
 Infected person
 Variables: <Timestamp, Bluetooth Signal Strength, Phone’s model, Device ID/Nickname, Infection Status>
 
-Location (Objects)
+Location (Objects) (1536)
 Variables: <StartTime, EndTime, Device ID/Nickname, Location>
 
-Databse for Location
+Database for Location (512)
 Variables: <Check In, Check Out, Device ID/Nickname (Row)>
 
 # Junk
@@ -26,6 +26,7 @@ Based on infection status -> if True == retrieve the infected person tracetogeth
 
 # Features
 SMS features using 2 person pretending to be infected
+
 Online Database (MongoDB)
 
 
