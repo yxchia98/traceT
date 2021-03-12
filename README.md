@@ -1,7 +1,7 @@
 # traceT
 Trace Together algorithm
 
-// Data (Inheritance)
+# Data (Inheritance)
 Infected person
 Variables: <Timestamp, Bluetooth Signal Strength, Phone’s model, Device ID/Nickname, Infection Status>
 
@@ -11,7 +11,7 @@ Variables: <StartTime, EndTime, Device ID/Nickname, Location>
 Databse for Location
 Variables: <Check In, Check Out, Device ID/Nickname (Row)>
 
-// Junk
+# Junk
 This guy eat Mac only
 
 We only need 1 guy Volunteer yourself thanks to code everything
@@ -24,7 +24,7 @@ if infected == true:
 Based on infection status -> if True == retrieve the infected person tracetogether data
 
 
-// Features
+# Features
 SMS features using 2 person pretending to be infected
 Online Database (MongoDB)
 
