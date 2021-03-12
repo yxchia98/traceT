@@ -6,7 +6,7 @@ Infected person
 Variables: <Timestamp, Bluetooth Signal Strength, Phone’s model, Device ID/Nickname, Infection Status>
 
 Location (Objects) (1536)
-Variables: <StartTime, EndTime, Device ID/Nickname, Location>
+Variables: <StartTime, EndTime, Device ID/Nickname, Safe Entry>
 
 Database for Location (512)
 Variables: <Check In, Check Out, Device ID/Nickname (Row)>
