@@ -91,11 +91,23 @@ class AVLTree:
             return 0
         return self.getHeight(node.left) - self.getHeight(node.right)
 
-    # given a key, return the key's node
+    # given a id, return the id's node
     def getNode(self, id):
         node = self.root
         while node is not None:
             if id == node.id:
+                return node
+            elif id < node.id:
+                node = node.left
+            else:
+                node = node.right
+        return None
+
+    def newCase(self, id):
+        node = self.root
+        while node is not None:
+            if id == node.id:
+                node.covid = True
                 return node
             elif id < node.id:
                 node = node.left
@@ -169,6 +181,7 @@ def print_hi(name):
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
+    proceed = True
     print_hi('PyCharm')
     client = pymongo.MongoClient(
         "mongodb+srv://Admin:UI0BvbxHM9F994HK@safetogether.wwfyn.mongodb.net/myFirstDatabase?retryWrites=true&w"
@@ -179,6 +192,16 @@ if __name__ == '__main__':
     userAVL = AVLTree()
     userAVL.createAVL(db.users.find())
     inOrderArr = userAVL.inOrder(userAVL.root)
-    print(len(inOrderArr))
-    for i in inOrderArr:
-        print(i.id, i.name, i.phone, i.covid)
+    print('Total number of users:', len(inOrderArr))
+    while proceed:
+        print('----------Main Menu----------\n1. Key in new confirmed case\n2. Get current cases\n3. Exit')
+        choice = int(input('Enter choice: '))
+        if choice == 1:
+            print('Enter User ID of confirmed case, followed by close contacts')
+            id = int(input('Enter User ID:'))
+            node = userAVL.newCase(id)
+            print(node.id, node.name, node.phone, node.covid)
+        elif choice == 2:
+            print('Accessing current cases')
+        else:
+            proceed = False
