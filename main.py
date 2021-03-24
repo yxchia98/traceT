@@ -3,6 +3,22 @@ from random import randint
 import pymongo as pymongo
 
 
+class AVLNode:
+    left = None
+    right = None
+    height = 1
+    id = None
+    name = None
+    phone = None
+    covid = False
+
+    def __init__(self, id, name, phone, covid):
+        self.id = id
+        self.name = name
+        self.phone = phone
+        self.covid = covid
+
+
 class AVLTree:
     root = None
 
@@ -129,22 +145,6 @@ class AVLTree:
         arr.append(node)
 
 
-class AVLNode:
-    left = None
-    right = None
-    height = 1
-    id = None
-    name = None
-    phone = None
-    covid = False
-
-    def __init__(self, id, name, phone, covid):
-        self.id = id
-        self.name = name
-        self.phone = phone
-        self.covid = covid
-
-
 def generateUsers(num, db):
     db.users.drop()
     surname = ['Tan', 'Lim', 'Lee', 'Ng', 'Ong', 'Loong', 'Chia', 'Wong', 'Loh', 'Lor', 'Tang', 'Woo', 'Heng', 'Ang',
@@ -182,5 +182,3 @@ if __name__ == '__main__':
     print(len(inOrderArr))
     for i in inOrderArr:
         print(i.id, i.name, i.phone, i.covid)
-
-
