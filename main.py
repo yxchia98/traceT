@@ -3,6 +3,22 @@ from random import randint
 import pymongo as pymongo
 
 
+class contactNode:
+    origin = None
+    contacted = None
+    location = None
+    date = None
+    time = None
+    next = None
+
+    def __init__(self, user1, user2, location, date, time):
+        self.origin = user1
+        self.contacted = user2
+        self.location = location
+        self.date = date
+        self.time = time
+
+
 class AVLNode:
     left = None
     right = None
@@ -108,6 +124,24 @@ class AVLTree:
         while node is not None:
             if id == node.id:
                 node.covid = True
+                query = {'userID': id}
+                newval = {'$set': {'covid': node.covid}}
+                db.users.update_one(query, newval)
+                return node
+            elif id < node.id:
+                node = node.left
+            else:
+                node = node.right
+        return None
+
+    def dismiss(self, id):
+        node = self.root
+        while node is not None:
+            if id == node.id:
+                node.covid = False
+                query = {'userID': id}
+                newval = {'$set': {'covid': node.covid}}
+                db.users.update_one(query, newval)
                 return node
             elif id < node.id:
                 node = node.left
@@ -194,14 +228,26 @@ if __name__ == '__main__':
     inOrderArr = userAVL.inOrder(userAVL.root)
     print('Total number of users:', len(inOrderArr))
     while proceed:
-        print('----------Main Menu----------\n1. Key in new confirmed case\n2. Get current cases\n3. Exit')
+        print(
+            '----------Main Menu----------\n1. Key in new confirmed case\n2. Get current cases\n3. De-register case\n4. Exit')
         choice = int(input('Enter choice: '))
         if choice == 1:
             print('Enter User ID of confirmed case, followed by close contacts')
             id = int(input('Enter User ID:'))
             node = userAVL.newCase(id)
+            if node is None:
+                print('Invalid User ID')
+                continue
             print(node.id, node.name, node.phone, node.covid)
         elif choice == 2:
             print('Accessing current cases')
+        elif choice == 3:
+            print('Enter User ID of user to de-register')
+            id = int(input('Enter User ID: '))
+            node = userAVL.dismiss(id)
+            if node is None:
+                print('Invalid User ID')
+                continue
+            print(node.id, node.name, node.phone, node.covid)
         else:
             proceed = False
