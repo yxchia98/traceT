@@ -208,15 +208,9 @@ def generateUsers(num, db):
     return 'Inserted ' + str(num) + ' users'
 
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
-
-
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
     proceed = True
-    print_hi('PyCharm')
     client = pymongo.MongoClient(
         "mongodb+srv://Admin:UI0BvbxHM9F994HK@safetogether.wwfyn.mongodb.net/myFirstDatabase?retryWrites=true&w"
         "=majority")
