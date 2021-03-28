@@ -3,22 +3,6 @@ from random import randint
 import pymongo as pymongo
 
 
-class contactNode:
-    origin = None
-    contacted = None
-    location = None
-    date = None
-    time = None
-    next = None
-
-    def __init__(self, user1, user2, location, date, time):
-        self.origin = user1
-        self.contacted = user2
-        self.location = location
-        self.date = date
-        self.time = time
-
-
 class AVLNode:
     left = None
     right = None
@@ -37,6 +21,10 @@ class AVLNode:
 
 class AVLTree:
     root = None
+    preOrderArray = []
+    inOrderArray = []
+    postOrderArray = []
+    casesArr = []
 
     def createAVL(self, a):
         self.root = None
@@ -149,46 +137,141 @@ class AVLTree:
                 node = node.right
         return None
 
+    def getCases(self):
+        # clear array first
+        self.casesArr = []
+        node = self.root
+        self.getCases2(node)
+        return self.casesArr
+
+    def getCases2(self, node):
+        if not node:
+            return
+        self.getCases2(node.left)
+        if node.covid:
+            self.casesArr.append(node)
+        self.getCases2(node.right)
+
     # preOrder Traversal
     def preOrder(self, node):
-        arr = []
-        self.preOrder2(node, arr)
-        return arr
+        self.preOrderArray = []
+        self.preOrder2(node)
+        return self.preOrderArray
 
-    def preOrder2(self, node, arr):
+    def preOrder2(self, node):
         if not node:
             return
         arr.append(node)
-        self.preOrder2(node.left, arr)
-        self.preOrder2(node.right, arr)
+        self.preOrder2(node.left)
+        self.preOrder2(node.right)
 
     # inOrder Traversal
     def inOrder(self, node):
-        arr = []
-        self.inOrder2(node, arr)
-        return arr
+        self.inOrderArray = []
+        self.inOrder2(node)
+        return self.inOrderArray
 
     # populate array via in-order transversal
-    def inOrder2(self, node, arr):
+    def inOrder2(self, node):
         if not node:
             return
-        self.inOrder2(node.left, arr)
-        arr.append(node)
-        self.inOrder2(node.right, arr)
+        self.inOrder2(node.left)
+        self.inOrderArray.append(node)
+        self.inOrder2(node.right)
 
     # postOrder Traversal
     def postOrder(self, node):
-        arr = []
-        self.postOrder2(node, arr)
-        return arr
+        self.postOrderArray = []
+        self.postOrder2(node)
+        return self.postOrderArray
 
     # populate array via post-order transversal
-    def postOrder2(self, node, arr):
+    def postOrder2(self, node):
         if not node:
             return
-        self.postOrder2(node.left, arr)
-        self.postOrder2(node.right, arr)
-        arr.append(node)
+        self.postOrder2(node.left)
+        self.postOrder2(node.right)
+        self.postOrderArray.append(node)
+
+
+class ContactNode:
+    origin = None
+    contacted = None
+    date = None
+    time = None
+    location = None
+
+    def __init__(self, origin, contacted, date, time, location):
+        self.origin = origin
+        self.contacted = contacted
+        self.date = date
+        self.time = time
+        self.location = location
+
+    def __eq__(self, other):
+        if self.origin == other.origin or self.origin == other.contacted:
+            if self.contacted == other.contacted or self.contacted == other.origin:
+                if self.date == other.date:
+                    if self.time == other.time:
+                        if self.location == other.location:
+                            return True
+        return False
+
+
+class AdjNode:
+    contact = None
+    date = None
+    time = None
+    location = None
+
+    def __init__(self, contact, date, time, location):
+        self.contact = contact
+        self.date = date
+        self.time = time
+        self.location = location
+
+
+class Graph:
+    V = None
+    graph = []
+
+    def __init__(self, vertices):
+        self.V = vertices
+        self.graph = [None] * self.V
+
+    def createGraph(self, a):
+        self.graph = [None] * self.V
+        for i in a:
+            self.addEdge(i)
+
+    def addEdge(self, source):
+        # adding to origin node's list
+        temp = AdjNode(source.contacted, source.date, source.time, source.location)
+        # insert at head for linked list
+        temp.next = self.graph[int(source.origin) - 1]
+        self.graph[int(source.origin) - 1] = temp
+
+        # adding to contacted node's list
+        temp = AdjNode(source.origin, source.date, source.time, source.location)
+        temp.next = self.graph[int(source.contacted) - 1]
+        self.graph[int(source.contacted) - 1] = temp
+
+    def printByID(self, id):
+        temp = self.graph[id - 1]
+        print('-----People in contact with UserID ' + str(id) + '-----')
+        print("{: ^15} {: ^15} {: ^15} {: ^15}".format('UserID', 'Date', 'Time', 'Location'))
+        while temp:
+            print("{: ^15} {: ^15} {: ^15} {: ^15}".format(temp.contact, temp.date, temp.time, temp.location))
+            temp = temp.next
+
+    def printGraph(self):
+        for i in range(self.V):
+            print('UserID', i + 1, 'contacted: ', end=' ')
+            temp = self.graph[i]
+            while temp:
+                print('->', temp.contact, end=' ')
+                temp = temp.next
+        print('\n')
 
 
 def generateUsers(num, db):
@@ -208,6 +291,24 @@ def generateUsers(num, db):
     return 'Inserted ' + str(num) + ' users'
 
 
+def getContacts(a):
+    arr = []
+    for i in a:
+        node = ContactNode(i['origin'], i['contacted'], i['date'], i['time'], i['location'])
+        if node not in arr:
+            arr.append(node)
+    return arr
+
+
+def removeDupes(a):
+    result = []
+    for i in a:
+        if i in result:
+            continue
+        result.append(i)
+    return result
+
+
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
     proceed = True
@@ -217,9 +318,20 @@ if __name__ == '__main__':
     db = client.together
     # function to generate 500 users
     # print(generateUsers(500, db))
+    # instantiate AVLTree for users
     userAVL = AVLTree()
     userAVL.createAVL(db.users.find())
+    # get array of all contacts, in the form of ContactNodes
+    contactArr = getContacts(db.contacts.find())
+    # remove duplicates of personA-personB, to get undirected edges
+    edgesArr = removeDupes(contactArr)
+    # list of all users by in-order transversal.
     inOrderArr = userAVL.inOrder(userAVL.root)
+    contactGraph = Graph(len(inOrderArr))
+    for i in edgesArr:
+        # print(i.origin, i.contacted, i.date, i.time, i.location)
+        contactGraph.addEdge(i)
+    # contactGraph.printGraph()
     print('Total number of users:', len(inOrderArr))
     while proceed:
         print(
@@ -234,7 +346,27 @@ if __name__ == '__main__':
                 continue
             print(node.id, node.name, node.phone, node.covid)
         elif choice == 2:
-            print('Accessing current cases')
+            menu2 = True
+            while menu2:
+                print('----------Current Cases----------')
+                print("{: ^15} {: ^15} {: ^15} {: ^15}".format('UserID', 'Name', 'Mobile No.', 'Covid Status'))
+                casesArr = userAVL.getCases()
+                for i in casesArr:
+                    print("{: ^15} {: ^15} {: ^15} {: ^15}".format(i.id, i.name, i.phone, str(i.covid)))
+                    # print('User ID:', i.id, '\tName:', i.name, '\tMobile no.:', i.phone, '\tCovid status:', i.covid)
+                print('\n1.Search for close contacts by ID\n2.Back to main menu')
+                menu2choice = int(input('Enter Choice:'))
+                if menu2choice == 1:
+                    id = int(input('Enter ID:'))
+                    contactGraph.printByID(id)
+                    input('-----press any key to continue-----')
+                else:
+                    print('Clicked on 2')
+                    menu2 = False
+
+
+
+
         elif choice == 3:
             print('Enter User ID of user to de-register')
             id = int(input('Enter User ID: '))
@@ -243,5 +375,9 @@ if __name__ == '__main__':
                 print('Invalid User ID')
                 continue
             print(node.id, node.name, node.phone, node.covid)
+        elif choice == 9:
+            arr = userAVL.inOrder(userAVL.root)
+            for i in arr:
+                print(i.id, i.name, i.phone, i.covid)
         else:
             proceed = False
