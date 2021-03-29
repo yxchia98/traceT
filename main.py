@@ -363,10 +363,6 @@ if __name__ == '__main__':
                 else:
                     print('Clicked on 2')
                     menu2 = False
-
-
-
-
         elif choice == 3:
             print('Enter User ID of user to de-register')
             id = int(input('Enter User ID: '))

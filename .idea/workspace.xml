@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="8185cb88-934b-4859-8849-fcb682e9ccee" name="Default Changelist" comment="update">
+    <list default="true" id="8185cb88-934b-4859-8849-fcb682e9ccee" name="Default Changelist" comment="TraceTogether portion done">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
@@ -117,7 +117,21 @@
       <option name="project" value="LOCAL" />
       <updated>1616689173243</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="update">
+      <created>1616940835036</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1616940835036</updated>
+    </task>
+    <task id="LOCAL-00006" summary="TraceTogether portion done">
+      <created>1616940855894</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1616940855894</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -134,6 +148,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="update" />
-    <option name="LAST_COMMIT_MESSAGE" value="update" />
+    <MESSAGE value="TraceTogether portion done" />
+    <option name="LAST_COMMIT_MESSAGE" value="TraceTogether portion done" />
   </component>
 </project>
