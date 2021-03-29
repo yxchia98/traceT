@@ -27,6 +27,18 @@ Based on infection status -> if True == retrieve the infected person tracetogeth
 # Features
 SMS features using 2 person pretending to be infected
 
+SafeEntry:
+QRCode
+Webpage for QR Code
+
+SafeEntry details to be stored in MongoDB:
+UserID
+Name
+Mobile
+Location
+Date
+Time
+
 Online Database (MongoDB)
 
 Raspberry PI
