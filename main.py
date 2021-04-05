@@ -200,13 +200,15 @@ class ContactNode:
     date = None
     time = None
     location = None
+    bluetooth = None
 
-    def __init__(self, origin, contacted, date, time, location):
+    def __init__(self, origin, contacted, date, time, location, bluetooth):
         self.origin = origin
         self.contacted = contacted
         self.date = date
         self.time = time
         self.location = location
+        self.bluetooth = bluetooth
 
     def __eq__(self, other):
         if self.origin == other.origin or self.origin == other.contacted:
@@ -223,12 +225,14 @@ class AdjNode:
     date = None
     time = None
     location = None
+    bluetooth = None
 
-    def __init__(self, contact, date, time, location):
+    def __init__(self, contact, date, time, location, bluetooth):
         self.contact = contact
         self.date = date
         self.time = time
         self.location = location
+        self.bluetooth = bluetooth
 
 
 class Graph:
@@ -246,22 +250,22 @@ class Graph:
 
     def addEdge(self, source):
         # adding to origin node's list
-        temp = AdjNode(source.contacted, source.date, source.time, source.location)
+        temp = AdjNode(source.contacted, source.date, source.time, source.location, source.bluetooth)
         # insert at head for linked list
         temp.next = self.graph[int(source.origin) - 1]
         self.graph[int(source.origin) - 1] = temp
 
         # adding to contacted node's list
-        temp = AdjNode(source.origin, source.date, source.time, source.location)
+        temp = AdjNode(source.origin, source.date, source.time, source.location, source.bluetooth)
         temp.next = self.graph[int(source.contacted) - 1]
         self.graph[int(source.contacted) - 1] = temp
 
     def printByID(self, id):
         temp = self.graph[id - 1]
         print('-----People in contact with UserID ' + str(id) + '-----')
-        print("{: ^15} {: ^15} {: ^15} {: ^15}".format('UserID', 'Date', 'Time', 'Location'))
+        print("{: ^15} {: ^15} {: ^15} {: ^15} {: ^15}".format('UserID', 'Date', 'Time', 'Location','Bluetooth strength'))
         while temp:
-            print("{: ^15} {: ^15} {: ^15} {: ^15}".format(temp.contact, temp.date, temp.time, temp.location))
+            print("{: ^15} {: ^15} {: ^15} {: ^15} {: ^15}".format(temp.contact, temp.date, temp.time, temp.location, temp.bluetooth + 'dBm'))
             temp = temp.next
 
     def printGraph(self):
@@ -294,7 +298,7 @@ def generateUsers(num, db):
 def getContacts(a):
     arr = []
     for i in a:
-        node = ContactNode(i['origin'], i['contacted'], i['date'], i['time'], i['location'])
+        node = ContactNode(i['origin'], i['contacted'], i['date'], i['time'], i['location'], i['bluetooth'])
         if node not in arr:
             arr.append(node)
     return arr
@@ -324,12 +328,11 @@ if __name__ == '__main__':
     # get array of all contacts, in the form of ContactNodes
     contactArr = getContacts(db.contacts.find())
     # remove duplicates of personA-personB, to get undirected edges
-    edgesArr = removeDupes(contactArr)
+    # edgesArr = removeDupes(contactArr)
     # list of all users by in-order transversal.
     inOrderArr = userAVL.inOrder(userAVL.root)
     contactGraph = Graph(len(inOrderArr))
-    for i in edgesArr:
-        # print(i.origin, i.contacted, i.date, i.time, i.location)
+    for i in contactArr:
         contactGraph.addEdge(i)
     # contactGraph.printGraph()
     print('Total number of users:', len(inOrderArr))
@@ -362,7 +365,6 @@ if __name__ == '__main__':
                     contactGraph.printByID(id)
                     input('-----press any key to continue-----')
                 else:
-                    print('Clicked on 2')
                     menu2 = False
         elif choice == 3:
             print('Enter User ID of user to de-register')
