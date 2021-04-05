@@ -1,0 +1,47 @@
+body {
+	margin-right: 50px;
+	margin-left: 50px;
+}
+
+#title {
+	position: absolute;
+	left: 470px;
+	top: 20px;
+}
+
+#interactiveMap {
+	height: 500px;
+	width: 700px;
+	/*background-color: red;*/
+	display: inline-block;
+}
+
+#map {
+	margin-right: 50px;
+	margin-top: 50px;
+	margin-bottom: 50px;
+}
+
+#information {
+	float:right;
+	height: 500px;
+	width: 360px;	
+	/*background-color: red;*/
+	margin-left: 100px;
+}
+
+#cases {
+	height: 150px;
+	width: 340px;
+	/*background-color: blue;*/
+	margin-top: 50px;
+	margin-left: 10px;
+	margin-right: 10px;
+	margin-bottom: 10px;
+	border: solid;
+}
+
+.display {
+	margin: 0;
+	padding: 0;
+}

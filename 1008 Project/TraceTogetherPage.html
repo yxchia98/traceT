@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Trace Together Project</title>
+<meta charset="utf-8">
+<link rel="stylesheet" href="css.css">
+<style>
+</style>
+</head>
+<body>
+<header>
+<div id="container" style="white-space:nowrap">
+	<div id="logo">
+		<img src="C:/Users/NatSi/Desktop/1008 Project/Images/SIT logo.jpg" width="142" height="100"/>
+	</div>
+	<div id="title">
+		<h1>Trace Together Simulation</h1>
+	</div>
+</div>
+</header>
+<div id="nav">
+<br><br>
+</div>
+<div id="interactiveMap">
+	<img id="map" src="C:/Users/NatSi/Desktop/1008 Project/Images/Singapore map.jpg" width="650" height="400" border="1"/>
+</div>
+<div id="information">
+<div id="cases">
+<h3 class="display">Number of Covid Cases today: </h3>
+<h3 class="display">(as of <span id="demo"></span> )</h3>
+</div>
+<div>
+</div>
+</div>
+
+<script>
+var d = new Date();
+document.getElementById("demo").innerHTML = d.toDateString();
+</script>
+
+</body>
+</html>
