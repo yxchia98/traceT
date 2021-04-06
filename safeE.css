@@ -22,29 +22,41 @@ img.card-background
 	width: 30%;
 }
 
-.date
+.current
 {
 	font-weight: bold;
 	position: absolute;
-    top: 20%;
     left: 50%;
     transform: translate(-50%, -50%);
+}
+
+.date
+{
+    top: 20%;
 }
 
 .time
 {
-	font-weight: bold;
-	position: absolute;
     top: 40%;
-    left: 50%;
-    transform: translate(-50%, -50%);
 }
 
 .location
 {
-	font-weight: bold;
-	position: absolute;
     top: 70%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+}
+
+.checkinout
+{
+	padding-top: 5%;
+	text-align: center;
+}
+
+.b2
+{
+	width: 100%;
+	border-color : rgb(41,110,214);
+	color: rgb(41,110,214);
+	cursor: pointer;
+	border-radius: 50px;
+	font-weight: bold;
 }
