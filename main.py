@@ -1,279 +1,12 @@
+from datetime import datetime
+from datetime import timedelta
 from random import randint
 from random import randrange
-from datetime import timedelta
-from datetime import datetime
+from Graph import Graph
+from ContactNode import ContactNode
+from AVLTree import AVLNode, AVLTree
+
 import pymongo as pymongo
-
-
-class AVLNode:
-    left = None
-    right = None
-    height = 1
-    id = None
-    name = None
-    phone = None
-    covid = False
-
-    def __init__(self, id, name, phone, covid):
-        self.id = id
-        self.name = name
-        self.phone = phone
-        self.covid = covid
-
-
-class AVLTree:
-    root = None
-    preOrderArray = []
-    inOrderArray = []
-    postOrderArray = []
-    casesArr = []
-
-    def createAVL(self, a):
-        self.root = None
-        for x in a:
-            self.root = self.avlPut(self.root, x['userID'], x['name'], x['phone'], x['covid'])
-
-    def avlPut(self, node, id, name, phone, covid):
-        if node is None:
-            return AVLNode(id, name, phone, covid)
-        if id < node.id:
-            node.left = self.avlPut(node.left, id, name, phone, covid)
-        elif id > node.id:
-            node.right = self.avlPut(node.right, id, name, phone, covid)
-        else:
-            node.name = name
-            node.phone = phone
-            node.covid = covid
-        # update height of current node
-        node.height = 1 + max(self.getHeight(node.left), self.getHeight(node.right))
-
-        balance = self.getBalance(node)
-
-        # left node contains more, inserted key is from left of left node
-        if balance > 1 and id < node.left.id:
-            return self.rotateRight(node)
-        # right node contains more, inserted key is from right of right node
-        if balance < -1 and id > node.right.id:
-            return self.rotateLeft(node)
-        # left node contains more, inserted key is from right of left node
-        if balance > 1 and id > node.left.id:
-            node.left = self.rotateLeft(node.left)
-            return self.rotateRight(node)
-        # right node contains more, inserted key is from left of right node
-        if balance < -1 and id < node.right.id:
-            node.right = self.rotateRight(node.right)
-            return self.rotateLeft(node)
-        return node
-
-    # function to rotate left
-    def rotateLeft(self, node):
-        top = node.right
-        bottom = top.left
-        # perform rotation
-        top.left = node
-        node.right = bottom
-        node.height = 1 + max(self.getHeight(node.left), self.getHeight(node.right))
-        top.height = 1 + max(self.getHeight(top.left), self.getHeight(top.right))
-        return top
-
-    # function to rotate right
-    def rotateRight(self, node):
-        top = node.left
-        bottom = top.right
-        # perform rotation
-        top.right = node
-        node.left = bottom
-        node.height = 1 + max(self.getHeight(node.left), self.getHeight(node.right))
-        top.height = 1 + max(self.getHeight(top.left), self.getHeight(top.right))
-        return top
-
-    def getHeight(self, node):
-        if not node:
-            return 0
-        return node.height
-
-    def getBalance(self, node):
-        if not node:
-            return 0
-        return self.getHeight(node.left) - self.getHeight(node.right)
-
-    # given a id, return the id's node
-    def getNode(self, id):
-        node = self.root
-        while node is not None:
-            if id == node.id:
-                return node
-            elif id < node.id:
-                node = node.left
-            else:
-                node = node.right
-        return None
-
-    def newCase(self, id):
-        node = self.root
-        while node is not None:
-            if id == node.id:
-                node.covid = True
-                query = {'userID': id}
-                newval = {'$set': {'covid': node.covid}}
-                db.users.update_one(query, newval)
-                return node
-            elif id < node.id:
-                node = node.left
-            else:
-                node = node.right
-        return None
-
-    def dismiss(self, id):
-        node = self.root
-        while node is not None:
-            if id == node.id:
-                node.covid = False
-                query = {'userID': id}
-                newval = {'$set': {'covid': node.covid}}
-                db.users.update_one(query, newval)
-                return node
-            elif id < node.id:
-                node = node.left
-            else:
-                node = node.right
-        return None
-
-    def getCases(self):
-        # clear array first
-        self.casesArr = []
-        node = self.root
-        self.getCases2(node)
-        return self.casesArr
-
-    def getCases2(self, node):
-        if not node:
-            return
-        self.getCases2(node.left)
-        if node.covid:
-            self.casesArr.append(node)
-        self.getCases2(node.right)
-
-    # preOrder Traversal
-    def preOrder(self, node):
-        self.preOrderArray = []
-        self.preOrder2(node)
-        return self.preOrderArray
-
-    def preOrder2(self, node):
-        if not node:
-            return
-        arr.append(node)
-        self.preOrder2(node.left)
-        self.preOrder2(node.right)
-
-    # inOrder Traversal
-    def inOrder(self, node):
-        self.inOrderArray = []
-        self.inOrder2(node)
-        return self.inOrderArray
-
-    # populate array via in-order transversal
-    def inOrder2(self, node):
-        if not node:
-            return
-        self.inOrder2(node.left)
-        self.inOrderArray.append(node)
-        self.inOrder2(node.right)
-
-    # postOrder Traversal
-    def postOrder(self, node):
-        self.postOrderArray = []
-        self.postOrder2(node)
-        return self.postOrderArray
-
-    # populate array via post-order transversal
-    def postOrder2(self, node):
-        if not node:
-            return
-        self.postOrder2(node.left)
-        self.postOrder2(node.right)
-        self.postOrderArray.append(node)
-
-
-class ContactNode:
-    origin = None
-    contacted = None
-    dateAndTime = None
-    location = None
-    bluetooth = None
-
-    def __init__(self, origin, contacted, dateAndTime, location, bluetooth):
-        self.origin = origin
-        self.contacted = contacted
-        self.dateAndTime = dateAndTime
-        self.location = location
-        self.bluetooth = bluetooth
-
-    def __eq__(self, other):
-        if self.origin == other.origin or self.origin == other.contacted:
-            if self.contacted == other.contacted or self.contacted == other.origin:
-                if self.dateAndTime == other.dateAndTime:
-                    if self.location == other.location:
-                        return True
-        return False
-
-
-class AdjNode:
-    contact = None
-    dateAndTime = None
-    location = None
-    bluetooth = None
-
-    def __init__(self, contact, dateAndTime, location, bluetooth):
-        self.contact = contact
-        self.dateAndTime = dateAndTime
-        self.location = location
-        self.bluetooth = bluetooth
-
-
-class Graph:
-    V = None
-    graph = []
-
-    def __init__(self, vertices):
-        self.V = vertices
-        self.graph = [None] * self.V
-
-    def createGraph(self, a):
-        self.graph = [None] * self.V
-        for i in a:
-            self.addEdge(i)
-
-    def addEdge(self, source):
-        # adding to origin node's list
-        temp = AdjNode(source.contacted, source.dateAndTime, source.location, source.bluetooth)
-        # insert at head for linked list
-        temp.next = self.graph[int(source.origin) - 1]
-        self.graph[int(source.origin) - 1] = temp
-
-        # adding to contacted node's list
-        temp = AdjNode(source.origin, source.dateAndTime, source.location, source.bluetooth)
-        temp.next = self.graph[int(source.contacted) - 1]
-        self.graph[int(source.contacted) - 1] = temp
-
-    def printByID(self, id):
-        temp = self.graph[id - 1]
-        print('-----People in contact with UserID ' + str(id) + '-----')
-        print("{: ^15} {: ^15} {: ^15} {: ^15} {: ^15}".format('UserID', 'Date', 'Time', 'Location', 'Bluetooth strength'))
-        while temp:
-            # print(temp.contact, temp.dateAndTime.strftime('%d/%m/%Y %H:%M:%S'), temp.location, temp.bluetooth)
-            print("{: ^15} {: ^15} {: ^15} {: ^15} {: ^15} ".format(temp.contact, temp.dateAndTime.strftime('%d/%m/%Y'), temp.dateAndTime.strftime('%H:%M:%S'), temp.location, str(temp.bluetooth) + 'dBm'))
-            temp = temp.next
-
-    def printGraph(self):
-        for i in range(self.V):
-            print('UserID', i + 1, 'contacted: ', end=' ')
-            temp = self.graph[i]
-            while temp:
-                print('->', temp.contact, end=' ')
-                temp = temp.next
-        print('\n')
 
 
 def generateUsers(num, db):
@@ -292,6 +25,7 @@ def generateUsers(num, db):
         db.users.insert_one(user)
     return 'Inserted ' + str(num) + ' users'
 
+
 def random_date(start, end):
     """
     This function will return a random datetime between two datetime
@@ -302,19 +36,21 @@ def random_date(start, end):
     random_second = randrange(int_delta)
     return start + timedelta(seconds=random_second)
 
+
 def generateContacts(n, db):
     db.contacts.drop()
-    location = ['Causeway Point', 'Hillion Mall', 'Changi Jewel', 'Northpoint City', 'Lot One', 'JCube', 'WestGate', 'Vivo City', 'City Square Mall', 'Bugis+', 'Bedok Mall', 'Pulau Tekong']
+    location = ['Causeway Point', 'Hillion Mall', 'Changi Jewel', 'Northpoint City', 'Lot One', 'JCube', 'WestGate',
+                'Vivo City', 'City Square Mall', 'Bugis+', 'Bedok Mall', 'Pulau Tekong']
     d1 = datetime.strptime('1/1/2008 00:00:00', '%m/%d/%Y %H:%M:%S')
     d2 = datetime.strptime('1/1/2009 23:59:59', '%m/%d/%Y %H:%M:%S')
     for i in range(n):
         print('i is currently', i)
         randomdatetime = random_date(d1, d2)
-        personA = randint(1,500)
-        personB = randint(1,500)
+        personA = randint(1, 500)
+        personB = randint(1, 500)
         while personB == personA:
             personB = randint(1, 500)
-        contactlocation = location[randint(0, len(location)-1)]
+        contactlocation = location[randint(0, len(location) - 1)]
         bluetooth = -randint(30, 70)
         contact = {
             'origin': personA,
@@ -332,10 +68,6 @@ def generateContacts(n, db):
             'bluetooth': bluetooth
         }
         db.contacts.insert_one(contact)
-
-
-
-
 
 
 def getContacts(a):
@@ -388,7 +120,7 @@ if __name__ == '__main__':
         if choice == 1:
             print('Enter User ID of confirmed case, followed by close contacts')
             id = int(input('Enter User ID:'))
-            node = userAVL.newCase(id)
+            node = userAVL.newCase(id, db)
             if node is None:
                 print('Invalid User ID')
                 continue
@@ -412,7 +144,7 @@ if __name__ == '__main__':
         elif choice == 3:
             print('Enter User ID of user to de-register')
             id = int(input('Enter User ID: '))
-            node = userAVL.dismiss(id)
+            node = userAVL.dismiss(id, db)
             if node is None:
                 print('Invalid User ID')
                 continue
