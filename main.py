@@ -1,5 +1,7 @@
 from random import randint
-
+from random import randrange
+from datetime import timedelta
+from datetime import datetime
 import pymongo as pymongo
 
 
@@ -197,40 +199,35 @@ class AVLTree:
 class ContactNode:
     origin = None
     contacted = None
-    date = None
-    time = None
+    dateAndTime = None
     location = None
     bluetooth = None
 
-    def __init__(self, origin, contacted, date, time, location, bluetooth):
+    def __init__(self, origin, contacted, dateAndTime, location, bluetooth):
         self.origin = origin
         self.contacted = contacted
-        self.date = date
-        self.time = time
+        self.dateAndTime = dateAndTime
         self.location = location
         self.bluetooth = bluetooth
 
     def __eq__(self, other):
         if self.origin == other.origin or self.origin == other.contacted:
             if self.contacted == other.contacted or self.contacted == other.origin:
-                if self.date == other.date:
-                    if self.time == other.time:
-                        if self.location == other.location:
-                            return True
+                if self.dateAndTime == other.dateAndTime:
+                    if self.location == other.location:
+                        return True
         return False
 
 
 class AdjNode:
     contact = None
-    date = None
-    time = None
+    dateAndTime = None
     location = None
     bluetooth = None
 
-    def __init__(self, contact, date, time, location, bluetooth):
+    def __init__(self, contact, dateAndTime, location, bluetooth):
         self.contact = contact
-        self.date = date
-        self.time = time
+        self.dateAndTime = dateAndTime
         self.location = location
         self.bluetooth = bluetooth
 
@@ -250,22 +247,23 @@ class Graph:
 
     def addEdge(self, source):
         # adding to origin node's list
-        temp = AdjNode(source.contacted, source.date, source.time, source.location, source.bluetooth)
+        temp = AdjNode(source.contacted, source.dateAndTime, source.location, source.bluetooth)
         # insert at head for linked list
         temp.next = self.graph[int(source.origin) - 1]
         self.graph[int(source.origin) - 1] = temp
 
         # adding to contacted node's list
-        temp = AdjNode(source.origin, source.date, source.time, source.location, source.bluetooth)
+        temp = AdjNode(source.origin, source.dateAndTime, source.location, source.bluetooth)
         temp.next = self.graph[int(source.contacted) - 1]
         self.graph[int(source.contacted) - 1] = temp
 
     def printByID(self, id):
         temp = self.graph[id - 1]
         print('-----People in contact with UserID ' + str(id) + '-----')
-        print("{: ^15} {: ^15} {: ^15} {: ^15} {: ^15}".format('UserID', 'Date', 'Time', 'Location','Bluetooth strength'))
+        print("{: ^15} {: ^15} {: ^15} {: ^15} {: ^15}".format('UserID', 'Date', 'Time', 'Location', 'Bluetooth strength'))
         while temp:
-            print("{: ^15} {: ^15} {: ^15} {: ^15} {: ^15}".format(temp.contact, temp.date, temp.time, temp.location, temp.bluetooth + 'dBm'))
+            # print(temp.contact, temp.dateAndTime.strftime('%d/%m/%Y %H:%M:%S'), temp.location, temp.bluetooth)
+            print("{: ^15} {: ^15} {: ^15} {: ^15} {: ^15} ".format(temp.contact, temp.dateAndTime.strftime('%d/%m/%Y'), temp.dateAndTime.strftime('%H:%M:%S'), temp.location, str(temp.bluetooth) + 'dBm'))
             temp = temp.next
 
     def printGraph(self):
@@ -294,11 +292,56 @@ def generateUsers(num, db):
         db.users.insert_one(user)
     return 'Inserted ' + str(num) + ' users'
 
+def random_date(start, end):
+    """
+    This function will return a random datetime between two datetime
+    objects.
+    """
+    delta = end - start
+    int_delta = (delta.days * 24 * 60 * 60) + delta.seconds
+    random_second = randrange(int_delta)
+    return start + timedelta(seconds=random_second)
+
+def generateContacts(n, db):
+    db.contacts.drop()
+    location = ['Causeway Point', 'Hillion Mall', 'Changi Jewel', 'Northpoint City', 'Lot One', 'JCube', 'WestGate', 'Vivo City', 'City Square Mall', 'Bugis+', 'Bedok Mall', 'Pulau Tekong']
+    d1 = datetime.strptime('1/1/2008 00:00:00', '%m/%d/%Y %H:%M:%S')
+    d2 = datetime.strptime('1/1/2009 23:59:59', '%m/%d/%Y %H:%M:%S')
+    for i in range(n):
+        print('i is currently', i)
+        randomdatetime = random_date(d1, d2)
+        personA = randint(1,500)
+        personB = randint(1,500)
+        while personB == personA:
+            personB = randint(1, 500)
+        contactlocation = location[randint(0, len(location)-1)]
+        bluetooth = -randint(30, 70)
+        contact = {
+            'origin': personA,
+            'contacted': personB,
+            'dateAndTime': randomdatetime,
+            'location': contactlocation,
+            'bluetooth': bluetooth
+        }
+        db.contacts.insert_one(contact)
+        contact = {
+            'origin': personB,
+            'contacted': personA,
+            'dateAndTime': randomdatetime,
+            'location': contactlocation,
+            'bluetooth': bluetooth
+        }
+        db.contacts.insert_one(contact)
+
+
+
+
+
 
 def getContacts(a):
     arr = []
     for i in a:
-        node = ContactNode(i['origin'], i['contacted'], i['date'], i['time'], i['location'], i['bluetooth'])
+        node = ContactNode(i['origin'], i['contacted'], i['dateAndTime'], i['location'], i['bluetooth'])
         if node not in arr:
             arr.append(node)
     return arr
@@ -322,6 +365,7 @@ if __name__ == '__main__':
     db = client.together
     # function to generate 500 users
     # print(generateUsers(500, db))
+    # generateContacts(2500, db)
     # instantiate AVLTree for users
     userAVL = AVLTree()
     userAVL.createAVL(db.users.find())
@@ -357,7 +401,6 @@ if __name__ == '__main__':
                 casesArr = userAVL.getCases()
                 for i in casesArr:
                     print("{: ^15} {: ^15} {: ^15} {: ^15}".format(i.id, i.name, i.phone, str(i.covid)))
-                    # print('User ID:', i.id, '\tName:', i.name, '\tMobile no.:', i.phone, '\tCovid status:', i.covid)
                 print('\n1.Search for close contacts by ID\n2.Back to main menu')
                 menu2choice = int(input('Enter Choice:'))
                 if menu2choice == 1:
