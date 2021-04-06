@@ -41,8 +41,8 @@ def generateContacts(n, db):
     db.contacts.drop()
     location = ['Causeway Point', 'Hillion Mall', 'Changi Jewel', 'Northpoint City', 'Lot One', 'JCube', 'WestGate',
                 'Vivo City', 'City Square Mall', 'Bugis+', 'Bedok Mall', 'Pulau Tekong']
-    d1 = datetime.strptime('1/1/2008 00:00:00', '%m/%d/%Y %H:%M:%S')
-    d2 = datetime.strptime('1/1/2009 23:59:59', '%m/%d/%Y %H:%M:%S')
+    d1 = datetime.strptime('20/3/2020 00:00:00', '%d/%m/%Y %H:%M:%S')
+    d2 = datetime.strptime('5/4/2021 23:59:59', '%d/%m/%Y %H:%M:%S')
     for i in range(n):
         print('i is currently', i)
         randomdatetime = random_date(d1, d2)
