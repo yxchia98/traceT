@@ -39,8 +39,8 @@ def random_date(start, end):
 
 def generateContacts(n, db):
     db.contacts.drop()
-    location = ['Causeway Point', 'Hillion Mall', 'Changi Jewel', 'Northpoint City', 'Lot One', 'JCube', 'WestGate',
-                'Vivo City', 'City Square Mall', 'Bugis+', 'Bedok Mall', 'Pulau Tekong']
+    location = ['Causeway Point', 'Hillion Mall', 'Changi Jewel', 'Northpoint City', 'LotOne', 'JCube', 'WestGate',
+                'VivoCity', 'CitySquare Mall', 'Bugis+', 'Bedok Mall', 'Pulau Tekong']
     d1 = datetime.strptime('20/3/2020 00:00:00', '%d/%m/%Y %H:%M:%S')
     d2 = datetime.strptime('5/4/2021 23:59:59', '%d/%m/%Y %H:%M:%S')
     for i in range(n):
@@ -109,8 +109,7 @@ if __name__ == '__main__':
             'case\n4. Exit')
         choice = int(input('Enter choice: '))
         if choice == 1:
-            print('Enter User ID of confirmed case, followed by close contacts')
-            id = int(input('Enter User ID:'))
+            id = int(input('Enter User ID of confirmed case:'))
             node = userAVL.newCase(id, db)
             if node is None:
                 print('Invalid User ID')
@@ -128,7 +127,16 @@ if __name__ == '__main__':
                 menu2choice = int(input('Enter Choice:'))
                 if menu2choice == 1:
                     id = int(input('Enter ID:'))
-                    contactGraph.printByID(id)
+                    singleIDContacts = contactGraph.getContactByID(id)
+                    print('-----People in contact with UserID ' + str(id) + '-----')
+                    print("{: ^15} {: ^15} {: ^15} {: ^15} {: ^15}".format('UserID', 'Date', 'Time', 'Location',
+                                                                           'Bluetooth strength'))
+                    for i in singleIDContacts:
+                        print("{: ^15} {: ^15} {: ^15} {: ^15} {: ^15} ".format(i.contact,
+                                                                                i.dateAndTime.strftime('%d/%m/%Y'),
+                                                                                i.dateAndTime.strftime('%H:%M'),
+                                                                                i.location,
+                                                                                str(i.bluetooth) + 'dBm'))
                     input('-----press any key to continue-----')
                 else:
                     menu2 = False

@@ -2,7 +2,7 @@ from AdjacentNode import AdjNode
 
 class Graph:
     V = None
-    graph = []
+    graph: list = []
 
     def __init__(self, vertices):
         self.V = vertices
@@ -25,14 +25,17 @@ class Graph:
         temp.next = self.graph[int(source.contacted) - 1]
         self.graph[int(source.contacted) - 1] = temp
 
-    def printByID(self, id):
+    def getContactByID(self, id):
+        n = []
         temp = self.graph[id - 1]
-        print('-----People in contact with UserID ' + str(id) + '-----')
-        print("{: ^15} {: ^15} {: ^15} {: ^15} {: ^15}".format('UserID', 'Date', 'Time', 'Location', 'Bluetooth strength'))
+        # print('-----People in contact with UserID ' + str(id) + '-----')
+        # print("{: ^15} {: ^15} {: ^15} {: ^15} {: ^15}".format('UserID', 'Date', 'Time', 'Location', 'Bluetooth strength'))
         while temp:
+            n.append(temp)
             # print(temp.contact, temp.dateAndTime.strftime('%d/%m/%Y %H:%M:%S'), temp.location, temp.bluetooth)
-            print("{: ^15} {: ^15} {: ^15} {: ^15} {: ^15} ".format(temp.contact, temp.dateAndTime.strftime('%d/%m/%Y'), temp.dateAndTime.strftime('%H:%M:%S'), temp.location, str(temp.bluetooth) + 'dBm'))
+            # print("{: ^15} {: ^15} {: ^15} {: ^15} {: ^15} ".format(temp.contact, temp.dateAndTime.strftime('%d/%m/%Y'), temp.dateAndTime.strftime('%H:%M'), temp.location, str(temp.bluetooth) + 'dBm'))
             temp = temp.next
+        return n
 
     def printGraph(self):
         for i in range(self.V):
