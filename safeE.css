@@ -1,0 +1,50 @@
+img.tt
+{
+  height:10%;
+  width: 10%;
+}
+p.tt
+{
+  color: red;
+  font-size: 250%;
+  display:inline-block;
+}
+
+div.card-body
+{
+	text-align: center;
+}
+
+img.card-background
+{
+	opacity: 30%;
+    height: auto;
+	width: 30%;
+}
+
+.date
+{
+	font-weight: bold;
+	position: absolute;
+    top: 20%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.time
+{
+	font-weight: bold;
+	position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.location
+{
+	font-weight: bold;
+	position: absolute;
+    top: 70%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
