@@ -26,16 +26,25 @@ class Graph:
         self.graph[int(source.contacted) - 1] = temp
 
     def getContactByID(self, id):
-        n = []
+        arr = []
         temp = self.graph[id - 1]
         # print('-----People in contact with UserID ' + str(id) + '-----')
         # print("{: ^15} {: ^15} {: ^15} {: ^15} {: ^15}".format('UserID', 'Date', 'Time', 'Location', 'Bluetooth strength'))
         while temp:
-            n.append(temp)
+            arr.append(temp)
             # print(temp.contact, temp.dateAndTime.strftime('%d/%m/%Y %H:%M:%S'), temp.location, temp.bluetooth)
             # print("{: ^15} {: ^15} {: ^15} {: ^15} {: ^15} ".format(temp.contact, temp.dateAndTime.strftime('%d/%m/%Y'), temp.dateAndTime.strftime('%H:%M'), temp.location, str(temp.bluetooth) + 'dBm'))
             temp = temp.next
-        return n
+        return arr
+
+    def getContactByArr(self, n: list):
+        arr = []
+        for i in n:
+            temp = self.graph[int(i.id) - 1]
+            while temp:
+                arr.append(temp)
+                temp = temp.next
+        return arr
 
     def printGraph(self):
         for i in range(self.V):

@@ -123,7 +123,7 @@ if __name__ == '__main__':
                 casesArr = userAVL.getCases()
                 for i in casesArr:
                     print("{: ^15} {: ^15} {: ^15} {: ^15}".format(i.id, i.name, i.phone, str(i.covid)))
-                print('\n1.Search for close contacts by ID\n2.Back to main menu')
+                print('\n1.Search for close contacts by ID\n2.Get all close contacts\n3.Back to main menu')
                 menu2choice = int(input('Enter Choice:'))
                 if menu2choice == 1:
                     id = int(input('Enter ID:'))
@@ -132,6 +132,18 @@ if __name__ == '__main__':
                     print("{: ^15} {: ^15} {: ^15} {: ^15} {: ^15}".format('UserID', 'Date', 'Time', 'Location',
                                                                            'Bluetooth strength'))
                     for i in singleIDContacts:
+                        print("{: ^15} {: ^15} {: ^15} {: ^15} {: ^15} ".format(i.contact,
+                                                                                i.dateAndTime.strftime('%d/%m/%Y'),
+                                                                                i.dateAndTime.strftime('%H:%M'),
+                                                                                i.location,
+                                                                                str(i.bluetooth) + 'dBm'))
+                    input('-----press any key to continue-----')
+                elif menu2choice == 2:
+                    closeContacts = contactGraph.getContactByArr(casesArr)
+                    print('-----People with close contacts of postitive cases-----')
+                    print("{: ^15} {: ^15} {: ^15} {: ^15} {: ^15}".format('UserID', 'Date', 'Time', 'Location',
+                                                                           'Bluetooth strength'))
+                    for i in closeContacts:
                         print("{: ^15} {: ^15} {: ^15} {: ^15} {: ^15} ".format(i.contact,
                                                                                 i.dateAndTime.strftime('%d/%m/%Y'),
                                                                                 i.dateAndTime.strftime('%H:%M'),
