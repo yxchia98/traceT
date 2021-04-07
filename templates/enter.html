@@ -13,20 +13,14 @@
 <body>
 <div style="text-align: center">
 	<h2>SafeEntry Check In</h2>
-	<form action="/safeentry.php">
+	<h2>{{location}}</h2>
+	<form method="POST" action="/safeentry">
 	  <label for="name">ID:</label><br>
 	  <input type="text" id="id" name="id" placeholder="Enter ID"><br>
-	  <label for="name">Name:</label><br>
-	  <input type="text" id="name" name="name" placeholder="Enter Full Name"><br>
-	  <?php 
-		$clicked = '';
-		$loc = $_GET['location'];
-		if(isset($loc)) 
-          $clicked = $loc; 
-	  ?>
-	  <input type="hidden" name="location" value="<?php echo (isset($clicked)) ?  $clicked : '' ?>" /><br>
+	  <input type="hidden" id="location" name="location" value="{{location}}"><br>
 	  <input type="submit" value="Submit">
-	</form> 
+	<h2>{{message}}</h2>
+	</form>
 </div>
 </body>
 </html>

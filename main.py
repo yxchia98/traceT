@@ -169,6 +169,7 @@ if __name__ == '__main__':
                 print('Invalid User ID')
                 continue
             print(node.id, node.name, node.phone, node.covid)
+
         elif choice == 9:
             arr = userAVL.inOrder(userAVL.root)
             for i in arr:
