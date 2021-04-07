@@ -3,11 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="8185cb88-934b-4859-8849-fcb682e9ccee" name="Default Changelist" comment="update">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/date.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/js/date.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/enter.php" beforeDir="false" afterPath="$PROJECT_DIR$/views/enter.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/safeE.css" beforeDir="false" afterPath="$PROJECT_DIR$/static/css/safeE.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/safeentry.html" beforeDir="false" afterPath="$PROJECT_DIR$/views/safeentry.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/safeentry.php" beforeDir="false" afterPath="$PROJECT_DIR$/views/safeentry.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SafeEntry.py" beforeDir="false" afterPath="$PROJECT_DIR$/SafeEntry.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
