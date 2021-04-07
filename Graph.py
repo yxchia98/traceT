@@ -1,5 +1,6 @@
 from AdjacentNode import AdjNode
 
+
 class Graph:
     V = None
     graph: list = []
@@ -27,6 +28,9 @@ class Graph:
 
     def getContactByID(self, id):
         arr = []
+        if id > len(self.graph):
+            print('Invalid ID Entered')
+            return arr
         temp = self.graph[id - 1]
         # print('-----People in contact with UserID ' + str(id) + '-----')
         # print("{: ^15} {: ^15} {: ^15} {: ^15} {: ^15}".format('UserID', 'Date', 'Time', 'Location', 'Bluetooth strength'))

@@ -19,12 +19,3 @@ class ContactNode:
                     if self.location == other.location:
                         return True
         return False
-
-
-def getContacts(a):
-    arr = []
-    for i in a:
-        node = ContactNode(i['origin'], i['contacted'], i['dateAndTime'], i['location'], i['bluetooth'])
-        if node not in arr:
-            arr.append(node)
-    return arr

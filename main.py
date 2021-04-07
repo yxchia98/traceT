@@ -3,8 +3,8 @@ from datetime import timedelta
 from random import randint
 from random import randrange
 from Graph import Graph
-from ContactNode import getContacts
-from AVLTree import AVLNode, AVLTree
+from ContactNode import ContactNode
+from AVLTree import AVLTree
 
 import pymongo as pymongo
 
@@ -77,6 +77,15 @@ def removeDupes(a):
             continue
         result.append(i)
     return result
+
+
+def getContacts(a):
+    arr = []
+    for i in a:
+        node = ContactNode(i['origin'], i['contacted'], i['dateAndTime'], i['location'], i['bluetooth'])
+        if node not in arr:
+            arr.append(node)
+    return arr
 
 
 # Press the green button in the gutter to run the script.
