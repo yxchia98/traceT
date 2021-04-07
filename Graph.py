@@ -53,4 +53,4 @@ class Graph:
             while temp:
                 print('->', temp.contact, end=' ')
                 temp = temp.next
-        print('\n')
+            print('\n')
