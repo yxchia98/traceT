@@ -114,8 +114,8 @@ if __name__ == '__main__':
     print('Total number of users:', len(inOrderArr))
     while proceed:
         print(
-            '----------Main Menu----------\n1. Key in new confirmed case\n2. Get current cases\n3. De-register '
-            'case\n4. Exit')
+            '----------Main Menu----------\n1.Key in new confirmed case\n2.Get current cases\n3.De-register '
+            'case\n4.Search by ID\n5.Exit')
         choice = int(input('Enter choice: '))
         if choice == 1:
             id = int(input('Enter User ID of confirmed case:'))
@@ -169,6 +169,15 @@ if __name__ == '__main__':
                 print('Invalid User ID')
                 continue
             print(node.id, node.name, node.phone, node.covid)
+
+        elif choice == 4:
+            id = int(input('Enter User ID to search for: '))
+            node = userAVL.getNode(id)
+            if node is None:
+                print('Invalid User ID')
+                continue
+            print("{: ^15} {: ^15} {: ^15} {: ^15}".format('UserID', 'Name', 'Mobile No.', 'Covid Status'))
+            print("{: ^15} {: ^15} {: ^15} {: ^15}".format(node.id, node.name, node.phone, str(node.covid)))
 
         elif choice == 9:
             arr = userAVL.inOrder(userAVL.root)

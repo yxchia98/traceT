@@ -3,8 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="8185cb88-934b-4859-8849-fcb682e9ccee" name="Default Changelist" comment="update">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/safeentry.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/safeentry.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/safeout.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/safeout.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -53,7 +52,7 @@
       <recent name="C:\Users\chiay\Documents\GitHub\traceT\static\js" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.SafeEntry">
+  <component name="RunManager" selected="Python.main">
     <configuration name="SafeEntry" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="traceT" />
       <option name="INTERPRETER_OPTIONS" value="" />
