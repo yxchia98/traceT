@@ -17,7 +17,10 @@ def dialog():
         mbox.setText("Invalid id")
     else:
         mbox.setText("The information has been updated")
-    mbox.exec_()
+        casesArr = userAVL.getCases()
+        infectedCount = len(casesArr)
+        result.setText(str(infectedCount))
+        mbox.exec_()
 
 def dialog1():
     input = textbox1.text()
@@ -29,6 +32,9 @@ def dialog1():
         mbox.setText("Invalid id")
     else:
         mbox.setText("The information has been updated")
+        casesArr = userAVL.getCases()
+        infectedCount = len(casesArr)
+        result.setText(str(infectedCount))
     mbox.exec_()
 
 def search():
@@ -38,9 +44,10 @@ def search():
     mbox.setWindowTitle("Update")
     mbox.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
     if node is None:
-        mbox.setText("Invalid id")
+        mbox.setText("Invalid ID")
     else:
-        mbox.setText("UserID: ")
+        mbox.setText("Details for userID " + str(node.id))
+        mbox.setDetailedText("UserID: " + str(node.id) + "\nName: " + str(node.name) + "\nMobile no.: " + str(node.phone) + "\nCovid Status: " + str(node.covid))
     mbox.exec_()
 
 if __name__ == "__main__":
@@ -75,8 +82,9 @@ if __name__ == "__main__":
     result = QtWidgets.QLabel(w)
     userAVL = AVLTree()
     userAVL.createAVL(db.users.find())
-    casesArr = len(userAVL.getCases())
-    result.setText(str(casesArr))
+    casesArr = userAVL.getCases()
+    infectedCount = len(casesArr)
+    result.setText(str(infectedCount))
     result.move(298, 200)
     result.setStyleSheet("QLabel {color: black; background-color: Orange; padding: 19px;}")
     result.adjustSize()
