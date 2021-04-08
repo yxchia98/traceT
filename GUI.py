@@ -8,15 +8,40 @@ import pymongo as pymongo
 
 
 def dialog():
-    print(textbox2.text())
-    input = int(textbox2.text())
-    node = userAVL.newCase(input, db)
+    input = textbox.text()
+    node = userAVL.newCase(int(input), db)
     mbox = QMessageBox()
     mbox.setWindowTitle("Update")
-    mbox.setText("The information has been updated")
     mbox.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
+    if node is None:
+        mbox.setText("Invalid id")
+    else:
+        mbox.setText("The information has been updated")
     mbox.exec_()
 
+def dialog1():
+    input = textbox1.text()
+    node = userAVL.dismiss(int(input), db)
+    mbox = QMessageBox()
+    mbox.setWindowTitle("Update")
+    mbox.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
+    if node is None:
+        mbox.setText("Invalid id")
+    else:
+        mbox.setText("The information has been updated")
+    mbox.exec_()
+
+def search():
+    input = textbox2.text()
+    node = userAVL.getNode(int(input))
+    mbox = QMessageBox()
+    mbox.setWindowTitle("Update")
+    mbox.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
+    if node is None:
+        mbox.setText("Invalid id")
+    else:
+        mbox.setText("UserID: ")
+    mbox.exec_()
 
 if __name__ == "__main__":
     proceed = True
@@ -78,7 +103,7 @@ if __name__ == "__main__":
     btn1.setText('Update a recovered case')
     btn1.move(270, 363)
     btn1.show()
-    btn1.clicked.connect(dialog)
+    btn1.clicked.connect(dialog1)
 
     #Search function
     textbox2 = QLineEdit(w)
@@ -90,7 +115,7 @@ if __name__ == "__main__":
     btn2.setText('Search person by ID')
     btn2.move(270, 422)
     btn2.show()
-    btn2.clicked.connect(dialog)
+    btn2.clicked.connect(search)
 
     w.show()
     sys.exit(app.exec_())
