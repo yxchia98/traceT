@@ -1,0 +1,5 @@
+-m pip install pymongo
+-python -m pip install pymongo dnspython
+-pip install twilio
+-pip install PyQt5
+-pip install Flask

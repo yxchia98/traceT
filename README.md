@@ -1,35 +1,31 @@
-# traceT
-Trace Together algorithm
+# Setup Variables, commands
 
-# Data (Inheritance)
-Infected person
-Variables: <Timestamp, Bluetooth Signal Strength, Phone’s model, Device ID/Nickname, Infection Status>
+-m pip install pymongo <br>
+-python -m pip install pymongo dnspython (ver 2.1.0 or later)<br>
+-pip install twilio <br>
+-pip install PyQt5  <br>
+-pip install Flask (ver 1.1.2 or later)
 
-Location (Objects) (1536)
-Variables: <StartTime, EndTime, Device ID/Nickname, Safe Entry>
 
-Database for Location (512)
-Variables: <Check In, Check Out, Device ID/Nickname (Row)>
+# Data Structures used
+Dict, Binary Search Tree, List, Linked list, Adjacency List
+
+# Algorithms used
+AVL Balanced Tree algorithm, Adjacency List, 
+
+# Languages used
+Python, HTML, CSS, NoSQL
+
 
 
 # Features
 SMS features using 2 person pretending to be infected
 
-SafeEntry:
-QRCode
-Webpage for QR Code
-
-SafeEntry details to be stored in MongoDB:
-UserID
-Name
-Mobile
-Location
-Date
-Time
-
-Online Database (MongoDB)
+Online Database (MongoDB Cloud Atlas)
 
 QR Code (Python)
 
 Webpage 
+
+PyQT5 GUI
 

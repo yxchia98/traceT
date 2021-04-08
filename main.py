@@ -92,7 +92,7 @@ def getContacts(a):
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    proceed = True
+    proceed = False #enable this if you want to use console menu
     client = pymongo.MongoClient(
         "mongodb+srv://Admin:UI0BvbxHM9F994HK@safetogether.wwfyn.mongodb.net/myFirstDatabase?retryWrites=true&w"
         "=majority")
