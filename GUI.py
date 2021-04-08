@@ -6,7 +6,6 @@ from PyQt5.QtCore import *
 from AVLTree import AVLTree
 import pymongo as pymongo
 
-
 def dialog():
     input = textbox.text()
     node = userAVL.newCase(int(input), db)
@@ -20,6 +19,10 @@ def dialog():
         casesArr = userAVL.getCases()
         infectedCount = len(casesArr)
         result.setText(str(infectedCount))
+        text = "{: ^15} {: ^15} {: ^15} {: ^15}".format('UserID', 'Name', 'Mobile No.', 'Covid Status')
+        for i in casesArr:
+            text += "\n{: ^15} {: ^15} {: ^15} {: ^15}".format(i.id, i.name, i.phone, str(i.covid))
+        currentcasestext.setPlainText(text)
         mbox.exec_()
 
 def dialog1():
@@ -35,6 +38,10 @@ def dialog1():
         casesArr = userAVL.getCases()
         infectedCount = len(casesArr)
         result.setText(str(infectedCount))
+        text = "{: ^15} {: ^15} {: ^15} {: ^15}".format('UserID', 'Name', 'Mobile No.', 'Covid Status')
+        for i in casesArr:
+            text += "\n{: ^15} {: ^15} {: ^15} {: ^15}".format(i.id, i.name, i.phone, str(i.covid))
+        currentcasestext.setPlainText(text)
     mbox.exec_()
 
 def search():
@@ -57,9 +64,11 @@ if __name__ == "__main__":
         "=majority")
     db = client.together
     app = QApplication(sys.argv)
+    app.setStyle('Fusion')
     w = QWidget()
     w.resize(800, 600)
     w.setWindowTitle('Trace Together')
+    layout = QVBoxLayout()
 
 
     title = QtWidgets.QLabel(w)
@@ -78,7 +87,6 @@ if __name__ == "__main__":
     title1.setStyleSheet("QLabel {color: white; background-color: Orange; padding: 15px;}")
     title1.adjustSize()
 
-
     result = QtWidgets.QLabel(w)
     userAVL = AVLTree()
     userAVL.createAVL(db.users.find())
@@ -88,6 +96,24 @@ if __name__ == "__main__":
     result.move(298, 200)
     result.setStyleSheet("QLabel {color: black; background-color: Orange; padding: 19px;}")
     result.adjustSize()
+
+
+    currentcasestitle = QtWidgets.QLabel(w)
+    currentcasestitle.setText("Current cases")
+    currentcasestitle.setFont(QFont('Arial', 14))
+    currentcasestitle.move(520, 150)
+    title.setAlignment(Qt.AlignRight)
+    currentcasestitle.setStyleSheet("QLabel {color: white; background-color: Orange; padding: 15px;}")
+
+    currentcasestext = QTextEdit(w)
+    currentcasestext.setReadOnly(True)
+    currentcasestext.resize(350, 350)
+    currentcasestext.setFont(QFont('Arial', 10))
+    currentcasestext.move(420, 210)
+    text = "{: ^15} {: ^15} {: ^15} {: ^15}".format('UserID', 'Name', 'Mobile No.', 'Covid Status')
+    for i in casesArr:
+        text += "\n{: ^15} {: ^15} {: ^15} {: ^15}".format(i.id, i.name, i.phone, str(i.covid))
+    currentcasestext.setPlainText(text)
 
     #New case
     textbox = QLineEdit(w)
