@@ -20,7 +20,7 @@ class Messenger:
         print(message.sid)
 
 
-# Driver code
-messenger = Messenger('AC529796f7c206f315a9c2afdaba05adb1', 'b808d59fbd7682f42ab6c951a51349c4')
-messenger.send('Dear Sir/Madam. You have been in close contact with someone who has COVID-19. Self isolate for 14 days and get yourself tested in the following locations near you at www.onemap.gov.sg/main/v2/pcrtmap/',
-               '+14439988401', '+6583820323')
+# # Driver code
+# messenger = Messenger('AC529796f7c206f315a9c2afdaba05adb1', 'b808d59fbd7682f42ab6c951a51349c4')
+# messenger.send('Dear Sir/Madam. You have been in close contact with someone who has COVID-19. Self isolate for 14 days and get yourself tested in the following locations near you at www.onemap.gov.sg/main/v2/pcrtmap/',
+#                '+14439988401', '+6583820323')

@@ -45,11 +45,11 @@ def modInverse(a, m):
 
 
 # driver code
-rsa = RSA()
-#print('private key', rsa.d)
-num = int(input("Enter a number to encrypt:"))
-start = time.time()
-en = rsa.encrypt(num)
-print('encrypted:', en)
-print('decrypted:', rsa.decrypt(en))
-print(time.time() - start)
+# rsa = RSA()
+# #print('private key', rsa.d)
+# num = int(input("Enter a number to encrypt:"))
+# start = time.time()
+# en = rsa.encrypt(num)
+# print('encrypted:', en)
+# print('decrypted:', rsa.decrypt(en))
+# print(time.time() - start)

@@ -1,4 +1,5 @@
 from AdjacentNode import AdjNode
+from datetime import datetime, timedelta
 
 
 class Graph:
@@ -26,18 +27,15 @@ class Graph:
         temp.next = self.graph[int(source.contacted) - 1]
         self.graph[int(source.contacted) - 1] = temp
 
-    def getContactByID(self, id):
+    def getContactByID(self, node):
         arr = []
-        if id > len(self.graph):
+        if node.id > len(self.graph):
             print('Invalid ID Entered')
             return arr
-        temp = self.graph[id - 1]
-        # print('-----People in contact with UserID ' + str(id) + '-----')
-        # print("{: ^15} {: ^15} {: ^15} {: ^15} {: ^15}".format('UserID', 'Date', 'Time', 'Location', 'Bluetooth strength'))
+        temp = self.graph[node.id - 1]
         while temp:
-            arr.append(temp)
-            # print(temp.contact, temp.dateAndTime.strftime('%d/%m/%Y %H:%M:%S'), temp.location, temp.bluetooth)
-            # print("{: ^15} {: ^15} {: ^15} {: ^15} {: ^15} ".format(temp.contact, temp.dateAndTime.strftime('%d/%m/%Y'), temp.dateAndTime.strftime('%H:%M'), temp.location, str(temp.bluetooth) + 'dBm'))
+            if (node.covidtime - timedelta(days=14)) < temp.dateAndTime < node.covidtime:
+                arr.append(temp)
             temp = temp.next
         return arr
 
@@ -46,7 +44,8 @@ class Graph:
         for i in n:
             temp = self.graph[int(i.id) - 1]
             while temp:
-                arr.append(temp)
+                if (i.covidtime - timedelta(days=14)) < temp.dateAndTime < i.covidtime:
+                    arr.append(temp)
                 temp = temp.next
         return arr
 

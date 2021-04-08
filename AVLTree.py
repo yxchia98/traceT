@@ -1,4 +1,5 @@
 import pymongo as pymongo
+from datetime import datetime
 
 class AVLNode:
     left = None
@@ -8,12 +9,14 @@ class AVLNode:
     name = None
     phone = None
     covid = False
+    covidtime = None
 
-    def __init__(self, id, name, phone, covid):
+    def __init__(self, id, name, phone, covid, covidtime):
         self.id = id
         self.name = name
         self.phone = phone
         self.covid = covid
+        self.covidtime = covidtime
 
 
 class AVLTree:
@@ -26,19 +29,20 @@ class AVLTree:
     def createAVL(self, a):
         self.root = None
         for x in a:
-            self.root = self.avlPut(self.root, x['userID'], x['name'], x['phone'], x['covid'])
+            self.root = self.avlPut(self.root, x['userID'], x['name'], x['phone'], x['covid'], x['covidtime'])
 
-    def avlPut(self, node, id, name, phone, covid):
+    def avlPut(self, node, id, name, phone, covid, covidtime):
         if node is None:
-            return AVLNode(id, name, phone, covid)
+            return AVLNode(id, name, phone, covid, covidtime)
         if id < node.id:
-            node.left = self.avlPut(node.left, id, name, phone, covid)
+            node.left = self.avlPut(node.left, id, name, phone, covid, covidtime)
         elif id > node.id:
-            node.right = self.avlPut(node.right, id, name, phone, covid)
+            node.right = self.avlPut(node.right, id, name, phone, covid, covidtime)
         else:
             node.name = name
             node.phone = phone
             node.covid = covid
+            node.covidtime = covidtime
         # update height of current node
         node.height = 1 + max(self.getHeight(node.left), self.getHeight(node.right))
 
@@ -109,8 +113,9 @@ class AVLTree:
         while node is not None:
             if id == node.id:
                 node.covid = True
+                node.covidtime = datetime.now()
                 query = {'userID': id}
-                newval = {'$set': {'covid': node.covid}}
+                newval = {'$set': {'covid': node.covid, 'covidtime': node.covidtime}}
                 db.users.update_one(query, newval)
                 return node
             elif id < node.id:
@@ -124,8 +129,9 @@ class AVLTree:
         while node is not None:
             if id == node.id:
                 node.covid = False
-                query = {'userID': id}
-                newval = {'$set': {'covid': node.covid}}
+                node.covidtime = None
+                query = {'userID': id, 'covidtime': node.covidtime}
+                newval = {'$set': {'covid': node.covid, 'covidtime': None}}
                 db.users.update_one(query, newval)
                 return node
             elif id < node.id:
@@ -158,7 +164,7 @@ class AVLTree:
     def preOrder2(self, node):
         if not node:
             return
-        arr.append(node)
+        self.preOrderArray.append(node)
         self.preOrder2(node.left)
         self.preOrder2(node.right)
 

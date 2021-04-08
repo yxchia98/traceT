@@ -9,6 +9,7 @@ from AVLTree import AVLTree
 import pymongo as pymongo
 
 
+
 def generateUsers(num, db):
     db.users.drop()
     surname = ['Tan', 'Lim', 'Lee', 'Ng', 'Ong', 'Loong', 'Chia', 'Wong', 'Loh', 'Lor', 'Tang', 'Woo', 'Heng', 'Ang',
@@ -20,7 +21,8 @@ def generateUsers(num, db):
             'userID': i,
             'name': firstname[randint(0, (len(firstname) - 1))] + ' ' + surname[randint(0, (len(surname) - 1))],
             'phone': 12345678,
-            'covid': False
+            'covid': False,
+            'covidtime': None
         }
         db.users.insert_one(user)
     return 'Inserted ' + str(num) + ' users'
@@ -41,7 +43,7 @@ def generateContacts(n, db):
     db.contacts.drop()
     location = ['Causeway Point', 'Hillion Mall', 'Changi Jewel', 'Northpoint City', 'LotOne', 'JCube', 'WestGate',
                 'VivoCity', 'CitySquare Mall', 'Bugis+', 'Bedok Mall', 'Pulau Tekong']
-    d1 = datetime.strptime('20/3/2020 00:00:00', '%d/%m/%Y %H:%M:%S')
+    d1 = datetime.strptime('10/3/2021 00:00:00', '%d/%m/%Y %H:%M:%S')
     d2 = datetime.strptime('5/4/2021 23:59:59', '%d/%m/%Y %H:%M:%S')
     for i in range(n):
         print('i is currently', i)
@@ -136,6 +138,7 @@ if __name__ == '__main__':
                 menu2choice = int(input('Enter Choice:'))
                 if menu2choice == 1:
                     id = int(input('Enter ID:'))
+                    node = userAVL.getNode(id)
                     singleIDContacts = contactGraph.getContactByID(id)
                     print('-----People in contact with UserID ' + str(id) + '-----')
                     print("{: ^15} {: ^15} {: ^15} {: ^15} {: ^15}".format('UserID', 'Date', 'Time', 'Location',
