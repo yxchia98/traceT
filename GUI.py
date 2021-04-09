@@ -88,6 +88,8 @@ def sendalert():
     smsbox = QMessageBox()
     smsbox.setWindowTitle("Send Alert")
     smsbox.setStandardButtons(QMessageBox.Ok)
+    casesArr = userAVL.getCases()
+    closeContactsarr = contactGraph.getContactByArr(casesArr)
     for i in closeContactsarr:
         if input == i.contact:
             sendable = True
@@ -95,7 +97,7 @@ def sendalert():
     if sendable:
         node = userAVL.getNode(input)
         mobile = '+65' + str(node.phone)
-        msg = Messenger('AC529796f7c206f315a9c2afdaba05adb1', '')
+        msg = Messenger('AC529796f7c206f315a9c2afdaba05adb1', '42114092bfa4a0edbf744e1b2aae0991')
         msg.send(
             'Dear Sir/Madam. You have been in close contact with someone who has COVID-19. Self isolate for 14 days and get yourself tested in the following locations near you at www.onemap.gov.sg/main/v2/pcrtmap/',
             '+14439988401', mobile)
