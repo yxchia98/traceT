@@ -92,7 +92,7 @@ def getContacts(a):
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    proceed = False #enable this if you want to use console menu
+    proceed = True  #enable this if you want to use console menu
     client = pymongo.MongoClient(
         "mongodb+srv://Admin:UI0BvbxHM9F994HK@safetogether.wwfyn.mongodb.net/myFirstDatabase?retryWrites=true&w"
         "=majority")
@@ -139,7 +139,7 @@ if __name__ == '__main__':
                 if menu2choice == 1:
                     id = int(input('Enter ID:'))
                     node = userAVL.getNode(id)
-                    singleIDContacts = contactGraph.getContactByID(id)
+                    singleIDContacts = contactGraph.getContactByID(node)
                     print('-----People in contact with UserID ' + str(id) + '-----')
                     print("{: ^15} {: ^15} {: ^15} {: ^15} {: ^15}".format('UserID', 'Date', 'Time', 'Location',
                                                                            'Bluetooth strength'))

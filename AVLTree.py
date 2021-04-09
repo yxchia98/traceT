@@ -130,7 +130,7 @@ class AVLTree:
             if id == node.id:
                 node.covid = False
                 node.covidtime = None
-                query = {'userID': id, 'covidtime': node.covidtime}
+                query = {'userID': id}
                 newval = {'$set': {'covid': node.covid, 'covidtime': None}}
                 db.users.update_one(query, newval)
                 return node
